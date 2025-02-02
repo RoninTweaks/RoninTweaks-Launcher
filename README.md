@@ -1,7 +1,8 @@
-RoninTweaks Launcher
+**RoninTweaks Launcher**
+
 A robust, open-source application launcher and updater with parallel download capabilities and real-time progress visualization.
 
-Features
+Features:
 
 - Parallel chunk-based downloading with retry mechanism
 - Real-time progress visualization with color-coded progress bar
