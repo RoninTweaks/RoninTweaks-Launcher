@@ -7,3 +7,6 @@ Real-time progress visualization with color-coded progress bar
 Automatic Windows Defender exclusion management
 Error handling and user feedback
 Self-updating capabilities
+
+Download:
+https://ronintweaks.com/download
