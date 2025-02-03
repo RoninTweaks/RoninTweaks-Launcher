@@ -6,7 +6,7 @@ Features:
 
 - Parallel chunk-based downloading with retry mechanism
 - Real-time progress visualization with color-coded progress bar
-- Automatic Windows Defender exclusion management
+- Automatic Windows Defender exclusion management (User Consent Prompt)
 - Error handling and user feedback
 - Self-updating capabilities
 
