@@ -307,34 +307,57 @@ class Program
         Console.Title = "RoninTweaks Launcher";
         try
         {
-            Console.WriteLine("Loading...");
+            // Inform the user
+            var dialogResult = MessageBox.Show(
+                "RoninTweaks requires adding its installation directory to Windows Defender exclusions to prevent false positives.\n\n" +
+                $"Installation Path: {INSTALL_PATH}\n\n" +
+                "Do you want to proceed with adding this exclusion? (You can remove it later in Windows Defender settings.)",
+                "RoninTweaks Suite - Defender Exclusion", 0x04
+            );
 
-            // Add folder exclusion using PowerShell
-            var startInfo = new ProcessStartInfo
+            // Check the user's response
+            if (dialogResult == 6)
             {
-                FileName = "powershell.exe",
-                Arguments = $"-Command Add-MpPreference -ExclusionPath '{INSTALL_PATH}'",
-                UseShellExecute = true,
-                CreateNoWindow = true,
-                WindowStyle = ProcessWindowStyle.Hidden,
-                Verb = "runas"  // Request administrative privileges
-            };
+                Console.WriteLine("Adding Windows Defender exclusion...");
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = "powershell.exe",
+                    Arguments = $"-Command Add-MpPreference -ExclusionPath '{INSTALL_PATH}'",
+                    UseShellExecute = true,
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    Verb = "runas"  // Request administrative privileges
+                };
 
-            using var process = Process.Start(startInfo);
-            if (process != null)
+                using var process = Process.Start(startInfo);
+                if (process != null)
+                {
+                    await process.WaitForExitAsync();
+                }
+
+                MessageBox.Show(
+                    "Windows Defender exclusion has been added successfully.",
+                    "RoninTweaks Suite"
+                );
+            }
+            else
             {
-                await process.WaitForExitAsync();
+                MessageBox.Show(
+                    "Installation completed without adding Windows Defender exclusions. If you experience issues, you can add the exclusion manually.",
+                    "RoninTweaks Suite"
+                );
             }
         }
         catch (Exception ex)
         {
             MessageBox.Show(
-                $"Failed to add Windows Defender exclusion: {ex.Message}\n" +
-                "You may need to manually add the exclusion.",
+                $"Failed to add Windows Defender exclusion: {ex.Message}\n\n" +
+                "You may need to manually add the exclusion in Windows Defender settings.",
                 "RoninTweaks Suite"
             );
         }
     }
+
 
     /// <summary>
     /// Handles the installation or update process for the application
@@ -391,12 +414,15 @@ class Program
     {
         Console.Title = "RoninTweaks Launcher";
 
-        MessageBox.Show(
-            "Welcome to RoninTweaks CLI - Installer\n\n" +
-            "🔄 Preparing to install/update application\n\n" +
-            "Visit: https://ronintweaks.com",
-            "RoninTweaks"
-        );
+        if (!Directory.Exists("Data"))
+        {
+            MessageBox.Show(
+                "Welcome to RoninTweaks CLI - Installer\n\n" +
+                "🔄 Preparing to install/update application\n\n" +
+                "Visit: https://ronintweaks.com",
+                "RoninTweaks"
+            );
+        }
 
         try
         {

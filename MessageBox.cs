@@ -27,12 +27,8 @@ namespace ConsoleApp7
         /// Security note: This P/Invoke call is safe as it only displays UI and doesn't modify system state.
         /// </summary>
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern int MessageBoxW(
-            IntPtr hWnd,       // Handle to owner window
-            string lpText,     // Message text
-            string lpCaption,  // Dialog title
-            uint uType        // Dialog box style (0 = OK button only)
-        );
+        private static extern int MessageBoxW(IntPtr hWnd, string lpText, string lpCaption, uint uType);
+
 
         /// <summary>
         /// Displays a message box with the specified text and title.
@@ -46,9 +42,10 @@ namespace ConsoleApp7
         /// - Sets uType to 0 for the simplest OK-button-only configuration
         /// - Unicode support is enabled through CharSet.Unicode in the DllImport attribute
         /// </remarks>
-        public static void Show(string message, string title)
+        public static int Show(string message, string title, uint type = 0)
         {
-            MessageBoxW(IntPtr.Zero, message, title, 0);
+            return MessageBoxW(IntPtr.Zero, message, title, type);
         }
+
     }
 }
