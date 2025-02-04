@@ -58,7 +58,7 @@ class Program
             Console.WriteLine("╚══════════════════════════════════════════════════════════════╝\n");
 
             // Get the file size from the server
-            long fileSize = long.Parse(await client.GetStringAsync("https://ronintweaks.com/api/RoninTweaksCLIUpdate/size"));
+            long fileSize = long.Parse(await client.GetStringAsync("https://example.com/api/size")); // API endpoint redacted for security
             var result = new byte[fileSize];
 
             // Calculate chunk boundaries for parallel downloading
@@ -85,7 +85,7 @@ class Program
                     {
                         // Download individual chunk with range request
                         using var response = await client.GetAsync(
-                            $"https://ronintweaks.com/api/RoninTweaksCLIUpdate/get/{chunk.Start}/{chunk.End}",
+                            $"https://example.com/api/get/{chunk.Start}/{chunk.End}", // API endpoint redacted for security
                             HttpCompletionOption.ResponseHeadersRead);
 
                         if (response.IsSuccessStatusCode)
